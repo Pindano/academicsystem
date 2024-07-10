@@ -94,3 +94,7 @@ Route::get('/teacher/subjects', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::get('/parent', function () {
+    return view('parent.dashboard');
+});
