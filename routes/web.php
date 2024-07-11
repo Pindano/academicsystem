@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,4 +97,8 @@ Route::get('/login', function () {
 
 Route::get('/parent', function () {
     return view('parent.dashboard');
+});
+
+Route::group(['middleware' => 'common'], function (){
+    Route::get('chat', [ChatController::class, 'chat']);
 });
