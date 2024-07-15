@@ -19,7 +19,7 @@
                                 <a href="#activities" class="block p-2 rounded hover:bg-gray-700">School Activities</a>
                             </li>
                             <li>
-                                <a href="#communication" class="block p-2 rounded hover:bg-gray-700">Communication Tools</a>
+                                <a href="/chat" class="block p-2 rounded hover:bg-gray-700">Inbox</a>
                             </li>
                             <li>
                                 <a href="#feedback" class="block p-2 rounded hover:bg-gray-700">Feedback and Support</a>

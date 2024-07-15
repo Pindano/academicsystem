@@ -18,6 +18,11 @@
     z-index: 7
 }
 
+.chat-list{
+ height: 672px;
+ overflow: auto;
+}
+
 .chat-app .chat {
     margin-left: 280px;
     border-left: 1px solid #eaeaea
@@ -87,7 +92,10 @@
 
 .chat .chat-history {
     padding: 20px;
-    border-bottom: 2px solid #fff
+    border-bottom: 2px solid #fff;
+    height: 600px;
+    overflow: auto;
+
 }
 
 .chat .chat-history ul {
