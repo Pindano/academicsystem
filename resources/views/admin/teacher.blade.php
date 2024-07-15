@@ -63,7 +63,7 @@
                         {{$teacher->first_name }}  {{$teacher->last_name}}
                     </th>
                     <td class="px-6 py-4">
-                        {{$teacher->email_address}}
+                        {{$teacher->email}}
                     </td>
                     <td class="px-6 py-4">
                         {{$teacher->phone_number}}
@@ -75,7 +75,7 @@
                         {{$teacher->role}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$teacher->created_at}}
+                        {{$teacher->created_at->format('d-m-Y')}}
                     </td>
                     <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 @section('content')
 
 <div class="content-wrapper">
@@ -11,7 +11,7 @@
       </div>
 
     </div>
-  </div> 
+  </div>
 </section>
 <section class = "content">
     <div class="container-fluid">
@@ -43,7 +43,7 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                         <div class="about">
                             <div class="name">Vincent Porter</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>
                         </div>
                     </li>
                     <li class="clearfix active">
@@ -59,7 +59,7 @@
                             <div class="name">Mike Thomas</div>
                             <div class="status"> <i class="fa fa-circle online"></i> online </div>
                         </div>
-                    </li>        
+                    </li>
                     <li class="clearfix">
                         <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
                         <div class="about">
@@ -89,8 +89,8 @@
                                 <div class="name">Mike Thomas</div>
                                 <div class="status"> <i class="fa fa-circle online"></i> online </div>
                             </div>
-                        </li>        
-                    </li>                                    
+                        </li>
+                    </li>
                     <li class="clearfix">
                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
                         <div class="about">
@@ -147,8 +147,8 @@
                             <div class="message-data">
                                 <span class="message-data-time">10:12 AM, Today</span>
                             </div>
-                            <div class="message my-message">Are we meeting today?</div>                                    
-                        </li>                               
+                            <div class="message my-message">Are we meeting today?</div>
+                        </li>
                         <li class="clearfix">
                             <div class="message-data">
                                 <span class="message-data-time">10:15 AM, Today</span>
@@ -178,7 +178,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-send"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Enter text here...">                                    
+                        <input type="text" class="form-control" placeholder="Enter text here...">
                     </div>
                 </div>
             </div>
@@ -188,4 +188,4 @@
 </div>
     </x-teachernav>
 </x-layout>
-
+</div>

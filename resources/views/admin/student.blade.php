@@ -27,14 +27,12 @@
                     </div>
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    School name
+                    Student name
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Location
+                    School Name
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Phone Number
-                </th>
+
                 <th scope="col" class="px-6 py-3">
                     Joined
                 </th>
@@ -57,13 +55,11 @@
                         {{$student->name}}
                     </th>
                     <td class="px-6 py-4">
-                        {{$student->location}}
+                        {{$student->school->first()->name}}
                     </td>
+
                     <td class="px-6 py-4">
-                        {{$student->phone_number}}
-                    </td>
-                    <td class="px-6 py-4">
-                        {{$student->created_at}}
+                        {{$student->created_at->format('d-m-Y')}}
                     </td>
                     <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

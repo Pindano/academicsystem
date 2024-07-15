@@ -6,12 +6,7 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                    </div>
-                </th>
+
                 <th scope="col" class="px-6 py-3">Class Name</th>
                 <th scope="col" class="px-6 py-3">Subject</th>
                 <th scope="col" class="px-6 py-3">Action</th>
@@ -21,18 +16,18 @@
             @foreach($subjects as $subject)
                 @foreach($subject->darasas as $darasa)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="w-4 p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                            </div>
-                        </td>
+
                         <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $darasa->classname }}
                         </td>
                         <td class="px-6 py-4">{{ $subject->subjectname }}</td>
                         <td class="px-6 py-4">
-                            <a href="#" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="grade-btn block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-teacher="{{ $teacher->id }}" data-class="{{ $darasa->id }}" data-subject="{{ $subject->id }}" data-examination="{{ $examination->id }}" type="button">
+                            <a href="/{{ $examination->id }}/{{$darasa->id }}/{{ $teacher->id }}/{{ $subject->id }}/" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="grade-btn block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                               data-teacher="{{ $teacher->id }}"
+                               data-class="{{ $darasa->id }}"
+                              data-subject="{{ $subject->id }}"
+                               data-examination="{{ $examination->id }}"
+                               type="button">
                                 Grade
                             </a>
                         </td>
@@ -70,25 +65,37 @@
 
                         </tbody>
                     </table>
+
                     <button id="submit-grades" type="button" class="mt-4 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Grades</button>
                 </div>
             </div>
         </div>
     </div>
+    <div
+        id="success"
+
+        x-init="setTimeout( ()=> show = false, 4000)"
+
+        class="fixed bg-green-500  text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+
+    </div>
+
 </x-teachernav>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let teacherId, classId, subjectId, examinationId, token;
+
         document.querySelectorAll('.grade-btn').forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
 
-                let teacherId = this.getAttribute('data-teacher');
-                let classId = this.getAttribute('data-class');
-                let subjectId = this.getAttribute('data-subject');
-                let token = document.head.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                teacherId = this.getAttribute('data-teacher');
+                classId = this.getAttribute('data-class');
+                subjectId = this.getAttribute('data-subject');
+                examinationId = this.getAttribute('data-examination');
+                token = document.head.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                // Ensure the CSRF token is included in the headers
                 fetch(`/teacher/${teacherId}/grade/${classId}/${subjectId}`, {
                     method: 'GET',
                     headers: {
@@ -104,8 +111,6 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data);
-
                         // Check if data.class and data.subject exist
                         if (data.class && data.subject) {
                             document.getElementById('modal-title').textContent = `Grading for ${data.class.classname} - ${data.subject.subjectname}`;
@@ -122,24 +127,20 @@
                             data.students.forEach(student => {
                                 let tr = document.createElement('tr');
                                 tr.innerHTML = `
-                            <td>${student.id}</td>
-                            <td>${student.name}</td>
+                                <td>${student.id}</td>
+                                <td>${student.name}</td>
                                 <td><input type="text" name="grades[${student.id}]" value=""></td>
-
-
-                        `;
+                            `;
                                 tbody.appendChild(tr);
                             });
                         } else {
                             console.warn('No students found for this class');
-                            // Optionally handle case where no students are returned
                         }
 
                         document.getElementById('crud-modal').classList.remove('hidden');
                     })
                     .catch(error => {
                         console.error('Error fetching or parsing data:', error);
-                        // Handle errors, such as displaying an error message
                     });
             });
         });
@@ -154,18 +155,15 @@
                 formData.append(input.name, input.value);
             });
 
-            let teacherId = document.querySelector('.grade-btn').getAttribute('data-teacher');
-            let classId = document.querySelector('.grade-btn').getAttribute('data-class');
-            let subjectId = document.querySelector('.grade-btn').getAttribute('data-subject');
-            let examinationId = document.querySelector('.grade-btn').getAttribute('data-examination'); // Ensure you have this attribute in your HTML
+            console.log('Teacher ID:', teacherId);
+            console.log('Class ID:', classId);
+            console.log('Subject ID:', subjectId);
+            console.log('Examination ID:', examinationId);
 
-            let token = document.head.querySelector('meta[name="csrf-token"]').getAttribute('content');
             formData.append('examination_id', examinationId);
             formData.append('teacherId', teacherId);
             formData.append('classId', classId);
             formData.append('subjectId', subjectId);
-
-
 
             fetch(`/teacher/${teacherId}/grade/${classId}/${subjectId}`, {
                 method: 'POST',
@@ -175,6 +173,18 @@
                 },
                 body: formData
             })
-
-        })});
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('success').textContent = data.message;
+                })
+                .catch(error => {
+                    console.error('Error submitting grades:', error);
+                });
+        });
+    });
 </script>
