@@ -8,7 +8,7 @@ use App\Models\Parents;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -213,6 +213,7 @@ Route::middleware('auth:teacher')->group(function () {
     });
 });
 
+
 Route::middleware('auth:parent')->group(function () {
 
     Route::get('/parent', function () {
@@ -226,4 +227,10 @@ Route::middleware('auth:parent')->group(function () {
 
 });
 
+
+
+
+Route::group(['middleware' => 'common'], function (){
+    Route::get('chat', [ChatController::class, 'chat']);
+});
 
