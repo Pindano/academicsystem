@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('term');
             $table->timestamps();
         });
     }
