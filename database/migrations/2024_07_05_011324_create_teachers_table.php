@@ -18,10 +18,10 @@ return new class extends Migration
             $table->foreignId('school_id')->constrained()->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email_address');
+            $table->string('email');
             $table->string('phone_number');
             $table->string('password');
-            $table->string('role');
+            $table->string('role')->nullable();
             $table->timestamps();
         });
     }

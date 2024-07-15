@@ -89,6 +89,11 @@
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].value = '';
             }
+
+            var addButton = newStaffMember.querySelector('button');
+            if (addButton) {
+                addButton.remove();
+            }
             staffMembers.appendChild(newStaffMember);
         });
 

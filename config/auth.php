@@ -18,6 +18,14 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'teacher' => [
+            'driver' => 'session',
+            'provider' => 'teachers',
+        ],
+        'parent' => [
+            'driver' => 'session',
+            'provider' => 'parents',
+        ],
     ],
 
     /*
@@ -47,6 +55,14 @@ return [
                 'driver' => 'eloquent',
                 'model' => App\Models\Admin::class,
             ],
+        'teachers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Teacher::class,
+        ],
+        'parents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Parents::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

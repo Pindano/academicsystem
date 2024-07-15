@@ -1,7 +1,7 @@
 <x-layout></x-layout>
 <x-teachernav>
     <div class="max-w-4xl mx-auto bg-white p-5 rounded-md shadow-md">
-        <form action="{{ route('school.store') }}" method="POST" id="school-form" class="my-11">
+        <form action="/teacher/addteacher" method="POST" id="school-form" class="my-11">
             @csrf
             <div class="max-w-4xl mx-auto bg-white p-5 rounded-md shadow-md mt-10">
                 <h2 class="center-text text-2xl font-bold mb-6">Teacher Information</h2>
@@ -9,19 +9,19 @@
                     <div class="staff-member flex space-x-4 mb-4">
                         <div>
                             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-                            <input type="text" name="first_name[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="first_name[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div>
                             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-                            <input type="text" name="last_name[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="last_name[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div>
                             <label for="email_address" class="block text-sm font-medium text-gray-700">Email address</label>
-                            <input type="text" name="email_address[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="email[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
                         <div>
                             <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone number</label>
-                            <input type="text" name="phone_number[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" name="phone_number[]" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
                         </div>
 
                         <div class="flex items-end">
@@ -50,9 +50,14 @@
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].value = '';
             }
+            var addButton = newStaffMember.querySelector('button');
+            if (addButton) {
+                addButton.remove();
+            }
             staffMembers.appendChild(newStaffMember);
         });
 
+        // Prevent multiple form submissions
         document.getElementById('school-form').addEventListener('submit', function (e) {
             if (this.classList.contains('submitted')) {
                 e.preventDefault();
@@ -61,6 +66,7 @@
             }
         });
     </script>
+
 
     <div class="hidden sm:block" aria-hidden="true">
         <div class="py-5">

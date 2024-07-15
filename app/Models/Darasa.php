@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Darasa extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['id','classname'];
 
     public function students()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class, 'student_parent_class_school', 'darasas_id', 'student_id')
+            ->withPivot('darasas_id', 'student_id');
     }
     public function school()
     {
@@ -21,7 +22,7 @@ class Darasa extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class, 'class_teacher')->withPivot('school_id');
+        return $this->belongsToMany(Teacher::class, 'classteachers')->withPivot('school_id');
     }
 
     public function subjects()
