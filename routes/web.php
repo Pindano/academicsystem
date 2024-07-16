@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ParentController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TeacherController;
 use App\Models\Darasa;
 use App\Models\Examination;
@@ -23,10 +25,45 @@ use App\Http\Controllers\ChatController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard',[
+            'data'=>['name'=>'Peter Gathoga'],
+        ]);
+    });
+    Route::get('/admin/school', function () {
+        return view('admin.school', [
+            'schools'=>\App\Models\School::all(),
+        ]);
+    });
+    Route::get('/admin/addschool', function () {
+        return view('admin.addschool');
+    });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+    Route::post('/admin/addschool', [\App\Http\Controllers\SchoolController::class, 'store'])->name('school.store');
+
+    Route::get('/admin/teachers', function () {
+        return view('admin.teacher',
+            [
+                'teachers'=>\App\Models\Teacher::all(),
+            ]);
+    });
+    Route::get('/admin/students', function () {
+        return view('admin.student',
+            [
+                'students'=>\App\Models\Student::all(),
+            ]);
+    });
+    Route::get('/admin/parents', function () {
+        return view('admin.parent',
+            [
+                'parents'=>\App\Models\Parents::all(),
+            ]);
+
+
+    });
 });
+
 
 Route::get('/adminlogin', function () {
     return view('admin.login');
@@ -37,38 +74,9 @@ Route::post('/adminlogin', function () {
     return view('admin.login');
 });
 
-Route::get('/admin/school', function () {
-    return view('admin.school', [
-        'schools'=>\App\Models\School::all(),
-    ]);
-});
-
-Route::get('/admin/addschool', function () {
-    return view('admin.addschool');
-});
-
-Route::post('/admin/addschool', [\App\Http\Controllers\SchoolController::class, 'store'])->name('school.store');
-
-Route::get('/admin/teachers', function () {
-    return view('admin.teacher',
-        [
-            'teachers'=>\App\Models\Teacher::all(),
-        ]);
-});
-Route::get('/admin/students', function () {
-    return view('admin.student',
-        [
-            'students'=>\App\Models\Student::all(),
-        ]);
-});
-Route::get('/admin/parents', function () {
-    return view('admin.parent',
-        [
-            'parents'=>\App\Models\Parents::all(),
-        ]);
 
 
-});
+
 
 
 
@@ -81,6 +89,10 @@ Route::get('/login', function () {
 Route::post('/login', [\App\Http\Controllers\SessionController::class,'index']);
 
 Route::middleware('auth:teacher')->group(function () {
+    Route::group(['middleware' => 'common'], function (){
+        Route::get('chat', [ChatController::class, 'chat']);
+    });
+
 
     Route::get('/teacher/class', function () {
         return view('teachers.class',[
@@ -222,15 +234,15 @@ Route::middleware('auth:parent')->group(function () {
         $students = $parent->students;
         return view('Parent.dashboard',[
             'students'=>$students,
+            'parent'=>$parent,
         ]);
     });
+    Route::get('/parent/{student}/performance', [\App\Http\Controllers\MarkController::class, 'getPerformance'])->name('performance.get');
+    Route::post('/logout', [SessionController::class, 'logout'])->name('logout');});
 
-});
+Route::get('/student/{studentId}/performance', [\App\Http\Controllers\MarkController::class, 'getPerformance']);
+Route::get('/student/{studentId}/exams', [\App\Http\Controllers\MarkController::class, 'getStudentExams']);
 
 
 
-
-Route::group(['middleware' => 'common'], function (){
-    Route::get('chat', [ChatController::class, 'chat']);
-});
 

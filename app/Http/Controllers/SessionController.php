@@ -26,4 +26,13 @@ class SessionController extends Controller
 
 
     }
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout(); // or use 'teacher' or 'parent' guard if applicable
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'You are logged out!!.');
+    }
 }

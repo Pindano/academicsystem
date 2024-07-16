@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mark;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class GradeController extends Controller
 {
@@ -21,8 +22,11 @@ class GradeController extends Controller
     {
 
         $validatedData = $request->validate([
-            'grades.*' => 'required|numeric|min:0|max:100', // Example validation rule for grades
-            'examination_id' => 'required|exists:examinations,id' // Validate that examination_id exists
+            'grades.*' => 'required|numeric|min:0|max:100',
+            'examination_id' => 'required|exists:examinations,id',
+            'teacherId'=>'required|exists:teachers,id',
+            'classId'=>'required|exists:darasas,id',
+            'subjectId'=>'required|exists:subjects,id',
         ]);
 
         $examinationId = $validatedData['examination_id'];
@@ -30,15 +34,15 @@ class GradeController extends Controller
         foreach ($validatedData['grades'] as $studentId => $grade) {
             Mark::updateOrCreate(
                 [
-                    'teacher_id' => $request->teacherId,
-                    'class_id' => $request->classId,
-                    'subject_id' => $request->subjectId,
+                    'teacher_id' => $validatedData['teacherId'],
+                    'class_id' => $validatedData['classId'],
+                    'subject_id' => $validatedData['subjectId'],
                     'student_id' => $studentId,
-                    'examination_id' => $examinationId, // Include the examination_id
+                    'examination_id' => $examinationId,
                 ],
                 ['performance' => $grade]
             );
         }
-        return redirect()->back()->with('message' , 'Grades successfully submitted.');
+        return response()->json(['message' => 'Grades successfully submitted.'], 200);
     }
 }

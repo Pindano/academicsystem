@@ -18,4 +18,9 @@ class Parents extends Model implements Authenticatable
         return $this->belongsToMany(Student::class, 'student_parent_class_school', 'parent_id', 'student_id')
             ->withPivot('darasas_id', 'school_id');
     }
+    public function school()
+    {
+        return $this->belongsToMany(School::class, 'student_parent_class_school', 'parent_id', 'school_id');
+
+    }
 }
